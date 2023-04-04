@@ -14,7 +14,7 @@ The precise location of TF motifs is missing in gimme maelstrom TFBS outputs. Th
 ├── gimmeScan_extract_motifs.R \
 ├── maelstrom_extract_motifs.R \
 ├── motif.nr.count.txt \
-├── nonredundant.motifs.pfm \
+├── nonredundant.motifs.pfm
 
 ### How to run the pipeline
 
