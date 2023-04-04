@@ -23,17 +23,14 @@ nextflow run extract_motif_loc.nf
 ```
 Shouldn't take long to finish and you should see screen output of run summary as follows:
 ```ruby
+nextflow run test_v3.nf
 N E X T F L O W  ~  version 22.10.6
-Launching `extract_motif_loc.nf` [furious_wescoff] DSL2 - revision: 938a4809dd
-executor >  local (11)
-[d2/849345] process > GIMME_SCAN (3)    [100%] 5 of 5 ✔
-[f8/d5b8e7] process > EXTRACT_GIMME (5) [100%] 5 of 5 ✔
-[5d/28c5ab] process > EXTRACT_NR_MOTIFS [100%] 1 of 1 ✔
-[-        ] process > INTERSECT         -
-Completed at: 03-Apr-2023 16:36:41
-Duration    : 3m 46s
-CPU hours   : 0.3
-Succeeded   : 11
+Launching `test_v3.nf` [festering_bardeen] DSL2 - revision: bb41e3dd9a
+executor >  local (5)
+[52/17a139] process > GIMME_SCAN (2)    [100%] 5 of 5 ✔
+[46/61caed] process > EXTRACT_GIMME (1) [100%] 5 of 5 ✔
+[23/b911e5] process > EXTRACT_NR_MOTIFS [100%] 1 of 1 ✔
+[d8/42ae7a] process > INTERSECT (Ss4)   [100%] 5 of 5 ✔
 
 ```
 
