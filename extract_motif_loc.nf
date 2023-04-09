@@ -143,7 +143,7 @@ workflow {
         .collect()
         .set { coord_bed_files }
 
-    INTERSECT(gimme_scan_bed_files, EXTRACT_NR_MOTIFS.out.flatten())
+    INTERSECT(gimme_scan_bed_files, coord_bed_files)
     
     bed_ch = Channel.fromFilePairs( params.bed_files, size: -1 )
 
