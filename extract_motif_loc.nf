@@ -1,13 +1,29 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
+
+log.info '''
+======================================
+
+.---..---.  .               .                
+  |  |      |              _|_   o           
+  |  |---   | .-.  .-. .-.  |    .  .-. .--. 
+  |  |      |(   )(   (   ) |    | (   )|  | 
+  '  '      `-`-'  `-' ` -'`-`-'-' `-`-' '  `-
+
+======================================'''
+
 params.input = "beds/*.bed"
 params.pfm = file("nonredundant.motifs.pfm")
 params.nr_count = file("motif.nr.count.txt")
 
 params.gimme_scan_bed_files = './results/gimme_extract/*/*.bed'
 params.coord_bed_files = './results/motifs_nr_coord/*.bed'
-params.outdir = './results/intersect'
+params.outdir_intersect = './results/intersect'
+
+
+params.bed_files = './results/intersect/*/*.bed'
+params.outdir_merge = './results'
 
 process GIMME_SCAN {
     publishDir 'results/gimme_scan', mode: 'copy', overwrite: false
@@ -61,7 +77,7 @@ process INTERSECT {
 
     tag { scan_id }
 
-    publishDir "${params.outdir}", mode: 'copy'
+    publishDir "${params.outdir_intersect}", mode: 'copy'
 
     input:
     tuple val(scan_id), path('bed_dir/*')
@@ -78,13 +94,34 @@ process INTERSECT {
         bedtools intersect \\
             -a "${bed}" \\
             -b "coord_dir/$(basename "${bed}")" \\
-            -wa |
-        sort \\
-            -u \\
+            -wa | awk -F'\t' 'BEGIN {OFS = FS} {print $0, $4="!{scan_id}"}' | sort | uniq \\
             > "!{scan_id}/$(basename "${bed}" '.bed')_intersected.bed"
     done
     '''
 }
+
+
+
+process MERGE {
+
+    tag { sample }
+
+    publishDir "${params.outdir_merge}/merge", mode: 'copy'
+
+    input:
+    tuple val(sample), path('bed_files/*.bed')
+
+    output:
+    tuple val(sample), path("${sample}_final.bed")
+
+    """
+    cat bed_files/*.bed |
+        sortBed |
+        bedtools merge -c 4 -o collapse \\
+        > "${sample}_final.bed"
+    """
+}
+
 
 workflow {
     input_ch = Channel.fromPath(params.input)
@@ -106,5 +143,10 @@ workflow {
         .collect()
         .set { coord_bed_files }
 
-    INTERSECT(gimme_scan_bed_files, coord_bed_files)
+    INTERSECT(gimme_scan_bed_files, EXTRACT_NR_MOTIFS.out.flatten())
+    
+    bed_ch = Channel.fromFilePairs( params.bed_files, size: -1 )
+
+    MERGE(bed_ch)
+
 }
