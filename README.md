@@ -23,15 +23,23 @@ nextflow run extract_motif_loc.nf
 ```
 Shouldn't take long to finish and you should see screen output of run summary as follows:
 ```ruby
-nextflow run test_v3.nf
 N E X T F L O W  ~  version 22.10.6
-Launching `test_v3.nf` [festering_bardeen] DSL2 - revision: bb41e3dd9a
-executor >  local (5)
-[52/17a139] process > GIMME_SCAN (2)    [100%] 5 of 5 ✔
-[46/61caed] process > EXTRACT_GIMME (1) [100%] 5 of 5 ✔
-[23/b911e5] process > EXTRACT_NR_MOTIFS [100%] 1 of 1 ✔
-[d8/42ae7a] process > INTERSECT (Ss4)   [100%] 5 of 5 ✔
+Launching `extract_motif_loc.nf` [fabulous_brown] DSL2 - revision: 584add0944
 
+======================================
+
+.---..---.  .               .                
+  |  |      |              _|_   o           
+  |  |---   | .-.  .-. .-.  |    .  .-. .--. 
+  |  |      |(   )(   (   ) |    | (   )|  | 
+  '  '      `-`-'  `-' ` -'`-`-'-' `-`-' '  `-
+
+======================================
+[6e/f8eaa0] process > GIMME_SCAN (4)            [100%] 5 of 5 ✔
+[88/c24f28] process > EXTRACT_GIMME (5)         [100%] 5 of 5 ✔
+[2c/fea30a] process > EXTRACT_NR_MOTIFS         [100%] 1 of 1 ✔
+[ff/8c03e6] process > INTERSECT (Ss3)           [100%] 5 of 5 ✔
+[43/dfc688] process > MERGE (MZF1_intersected)  [100%] 182 of 182 ✔
 ```
 
 
